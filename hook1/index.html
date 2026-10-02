@@ -32,6 +32,10 @@
   var STORE_ANDROID = 'https://play.google.com/store/apps/details?id=com.bagelcode.blockwar';
   var STORE_IOS = 'https://apps.apple.com/app/id0000000000';
 
+  /* Mở bằng trình duyệt thường (không có mạng quảng cáo, vd link GitHub chơi thử): nút PLAY FREE / màn kết
+     mở link thử nội bộ trên Google Play (người dùng đưa 02/10). Bản chạy trong mạng quảng cáo KHÔNG dùng link này. */
+  var LINK_CHOI_THU = 'https://play.google.com/apps/internaltest/4700498386462748249';
+
   /* Bản "-autostore" đặt cờ này = true lúc build: chạm ở đâu cũng mở store.
      Bản thường để false — cú chạm đầu tiên KHÔNG bao giờ được nhảy store. */
   var AUTOSTORE = false;
@@ -129,8 +133,10 @@
         case 'mraid':     w.mraid.open(storeUrl());    return true;
         case 'google':    w.ExitApi.exit();            return true;
         default:
-          if (w.console && console.log) console.log('[AdNet] CTA cục bộ →', storeUrl());
-          return false;
+          if (w.console && console.log) console.log('[AdNet] CTA cục bộ →', LINK_CHOI_THU);
+          /* gọi từ cú chạm thật nên trình duyệt cho mở tab mới; bị chặn thì chuyển luôn trang này */
+          if (!w.open(LINK_CHOI_THU, '_blank')) w.location.href = LINK_CHOI_THU;
+          return true;
       }
     },
 
